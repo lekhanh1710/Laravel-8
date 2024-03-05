@@ -15,6 +15,18 @@ use App\Http\Controllers;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('admin.welcome');
 });
-Route::get('/users/create',[Controllers\UserController::class,'create']);
+Route::match(['get', 'post'], '/login', [LoginController::class, 'login'])->name('login');
+Route::middleware('auth')->group(function (){
+    Route::get('/', [HomeController::class, 'index'])->name('home');
+});
+//Route::prefix('admin')->group(function () {
+//    Route::view('/', 'admin.welcome');
+//    Route::view('/home', 'admin.dashboard')->name('home');
+//    Route::view('/register', 'admin.auth.register')->name('register');
+//    Route::view('/login', 'admin.auth.login')->name('login');
+//    Route::post('/register',[Controllers\Admin\UserController::class,'create']);
+//});
+//
+//Route::post('/register',[Controllers\Admin\UserController::class,'create']);
